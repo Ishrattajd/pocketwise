@@ -213,33 +213,58 @@ npm run build
 
 ## Screenshots
 Login
+
 <img width="456" height="639" alt="Screenshot 2026-11-22 140628" src="https://github.com/user-attachments/assets/e55e102b-4032-471c-b83a-9394f19b0a58" />
 
+
+
+
 Home
+
 <img width="445" height="637" alt="Screenshot 2026-11-22 140324" src="https://github.com/user-attachments/assets/64b93b72-8de4-4f52-a743-137d35f6091b" />
 
+
+
+
 Insights
+
 <img width="443" height="643" alt="Screenshot 2026-11-22 140347" src="https://github.com/user-attachments/assets/a5904649-a1a8-4f95-b14b-e5cb3ff35208" />
 
 <img width="438" height="637" alt="Screenshot 2026-11-22 140401" src="https://github.com/user-attachments/assets/c20ea118-ae22-4f24-ac1c-40703811e592" />
 
 <img width="440" height="639" alt="Screenshot 2026-11-22 140416" src="https://github.com/user-attachments/assets/d69872ba-3551-417d-9ca5-0f7358d2f817" />
 
+
+
+
 Expenses
+
 <img width="438" height="638" alt="Screenshot 2026-11-22 140430" src="https://github.com/user-attachments/assets/abd287e6-48a4-4a2d-b848-03184d524d34" />
 
 <img width="446" height="635" alt="Screenshot 2026-11-22 140442" src="https://github.com/user-attachments/assets/dc9e9053-de78-4cd5-8d40-1e714630a5e3" />
 
 Goals
+
 <img width="446" height="641" alt="Screenshot 2026-11-22 140501" src="https://github.com/user-attachments/assets/7b299093-e480-4d31-a462-ff07fa2296b7" />
 
+
+
 Scholerships
+
 <img width="442" height="638" alt="Screenshot 2026-11-22 140521" src="https://github.com/user-attachments/assets/ce2bbca0-626d-4d84-bc20-0486b21cb6bc" />
 
 <img width="443" height="619" alt="Screenshot 2026-11-22 140536" src="https://github.com/user-attachments/assets/c7593526-5fe1-4692-917e-544ae2622340" />
 
+
+
 Jobs
+
+
 <img width="434" height="636" alt="Screenshot 2026-11-22 140552" src="https://github.com/user-attachments/assets/679f8172-e912-4a20-a209-382e89cd3c1c" />
+
+
+
+
 
 ## 📄 License
 MIT License. Built for students everywhere.
