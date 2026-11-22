@@ -1,135 +1,166 @@
 import React, { useState } from 'react';
-import { MapPin, Clock, CheckCircle } from 'lucide-react';
+import { useCurrency } from '../hooks/useCurrency';
+import { useExpenses } from '../hooks/useExpenses';
+import { MapPin, Clock, Bookmark, BookmarkCheck } from 'lucide-react';
 
 interface Job {
   id: string;
   title: string;
   department: string;
-  wage: string;
+  rate: number;
+  period: 'hr' | 'month';
   hours: string;
-  type: 'Work-Study' | 'On-Campus' | 'Flexible';
+  type: 'Work-Study' | 'On-Campus' | 'Flexible' | 'Remote';
   location: string;
 }
 
-const jobList: Job[] = [
+const staticJobList: Job[] = [
   {
     id: '1',
-    title: 'Campus Library Technology Assistant',
-    department: 'University Library System',
-    wage: '$17.50 / hr',
-    hours: '10-15 hrs/wk',
+    title: 'Campus Library Catalog Assistant',
+    department: 'Central University Library',
+    rate: 250,
+    period: 'hr',
+    hours: '10 hrs/wk',
     type: 'Work-Study',
-    location: 'Main Campus Library 2nd Fl',
+    location: 'Central Library 1st Floor',
   },
   {
     id: '2',
-    title: 'Peer Math & Statistics Tutor',
-    department: 'Academic Success Center',
-    wage: '$19.00 / hr',
-    hours: '8-12 hrs/wk',
+    title: 'Peer Coding & Math Tutor',
+    department: 'Dept of Computer Science',
+    rate: 350,
+    period: 'hr',
+    hours: '6-8 hrs/wk',
     type: 'On-Campus',
-    location: 'Student Union Hall',
+    location: 'Academic Block C',
   },
   {
     id: '3',
-    title: 'Campus Coffee House Barista',
-    department: 'Student Dining Services',
-    wage: '$16.25 / hr + tips',
-    hours: '12-20 hrs/wk',
+    title: 'Campus Tech Center Lab Proctor',
+    department: 'University IT Services',
+    rate: 200,
+    period: 'hr',
+    hours: '12 hrs/wk',
     type: 'Flexible',
-    location: 'Campus Center Cafe',
+    location: 'Computing Lab 3',
   },
   {
     id: '4',
-    title: 'IT Help Desk Student Technician',
-    department: 'Campus Information Technology',
-    wage: '$18.00 / hr',
-    hours: '15 hrs/wk',
-    type: 'Work-Study',
-    location: 'Science & Tech Bldg',
+    title: 'Digital Content & Social Media Intern',
+    department: 'Student Affairs & Cultural Cell',
+    rate: 5000,
+    period: 'month',
+    hours: '8 hrs/wk',
+    type: 'Remote',
+    location: 'Student Activity Centre',
   },
 ];
 
 export const Jobs: React.FC = () => {
-  const [appliedJobs, setAppliedJobs] = useState<string[]>([]);
+  const { format } = useCurrency();
+  const { savedJobs, toggleSaveJob } = useExpenses();
+  const [filterBookmarked, setFilterBookmarked] = useState(false);
 
-  const handleApply = (id: string) => {
-    setAppliedJobs((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
-  };
+  const displayedJobs = filterBookmarked
+    ? staticJobList.filter((j) => savedJobs.includes(j.id))
+    : staticJobList;
 
   return (
     <div className="space-y-4">
-      <div>
-        <h2 className="text-lg font-bold text-white flex items-center gap-2">
-          Campus & Student Jobs
-          <span className="text-[10px] bg-sky-500/10 text-sky-400 border border-sky-500/20 px-2 py-0.5 rounded-full font-semibold">
-            Work-Study Friendly
-          </span>
-        </h2>
-        <p className="text-xs text-slate-400">
-          Earn income with schedules designed around your college classes
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="font-heading text-lg font-bold text-[#1E293B] flex items-center gap-2">
+            Campus Gigs & Jobs
+            <span className="text-[10px] bg-teal-50 text-[#0F766E] border border-[#0F766E]/20 px-2.5 py-0.5 rounded-full font-semibold">
+              {staticJobList.length} Available
+            </span>
+          </h2>
+          <p className="text-xs text-[#64748B]">Flexible hours designed around your lecture timetable</p>
+        </div>
+        <button
+          onClick={() => setFilterBookmarked(!filterBookmarked)}
+          className={`min-h-[44px] flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold transition border ${
+            filterBookmarked
+              ? 'bg-[#0F766E] text-white border-[#0F766E]'
+              : 'bg-white text-[#64748B] border-[#E5E0D8] hover:text-[#1E293B]'
+          }`}
+        >
+          <Bookmark className="w-3.5 h-3.5" />
+          <span>Bookmarked ({savedJobs.length})</span>
+        </button>
       </div>
 
       <div className="space-y-3">
-        {jobList.map((job) => {
-          const applied = appliedJobs.includes(job.id);
+        {displayedJobs.map((job) => {
+          const isSaved = savedJobs.includes(job.id);
 
           return (
             <div
               key={job.id}
-              className="p-4 bg-slate-800/50 border border-slate-700/60 rounded-2xl space-y-3 shadow-md"
+              className="p-4 bg-white border border-[#E5E0D8] rounded-3xl space-y-3 shadow-sm hover:border-[#0F766E]/40 transition"
             >
               <div className="flex items-start justify-between">
                 <div>
-                  <span className="text-[10px] font-semibold uppercase tracking-wider text-sky-400 bg-sky-500/10 px-2 py-0.5 rounded-md">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#F59E0B] bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md">
                     {job.type}
                   </span>
-                  <h3 className="text-xs font-bold text-white mt-1.5">{job.title}</h3>
-                  <p className="text-[11px] text-slate-400">{job.department}</p>
+                  <h3 className="font-heading text-xs font-bold text-[#1E293B] mt-1.5">
+                    {job.title}
+                  </h3>
+                  <p className="text-[11px] text-[#64748B]">{job.department}</p>
                 </div>
-                <div className="text-right">
-                  <span className="text-xs font-bold text-emerald-400">{job.wage}</span>
+                <div className="text-right flex flex-col items-end">
+                  <span className="font-heading text-xs font-extrabold text-[#0F766E]">
+                    {format(job.rate)} / {job.period}
+                  </span>
+                  <button
+                    onClick={() => toggleSaveJob(job.id)}
+                    aria-label={isSaved ? `Remove bookmark for ${job.title}` : `Bookmark ${job.title}`}
+                    className="min-h-[44px] min-w-[44px] flex items-center justify-end text-[#64748B] hover:text-[#0F766E] mt-1 p-1"
+                  >
+                    {isSaved ? (
+                      <BookmarkCheck className="w-5 h-5 text-[#0F766E]" />
+                    ) : (
+                      <Bookmark className="w-5 h-5 text-[#64748B]" />
+                    )}
+                  </button>
                 </div>
               </div>
 
-              <div className="flex flex-col gap-1 text-[11px] text-slate-300">
+              <div className="flex flex-col gap-1 text-[11px] text-[#1E293B]">
                 <div className="flex items-center gap-1.5">
-                  <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                  <MapPin className="w-3.5 h-3.5 text-[#64748B] shrink-0" />
                   <span className="truncate">{job.location}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                  <Clock className="w-3.5 h-3.5 text-[#64748B] shrink-0" />
                   <span>{job.hours}</span>
                 </div>
               </div>
 
-              <div className="pt-2 border-t border-slate-700/40 flex items-center justify-between">
-                <button
-                  onClick={() => handleApply(job.id)}
-                  className={`text-xs font-semibold px-3 py-1.5 rounded-xl transition flex items-center gap-1.5 ${
-                    applied
-                      ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                      : 'bg-indigo-600 hover:bg-indigo-500 text-white'
-                  }`}
-                >
-                  {applied ? (
-                    <>
-                      <CheckCircle className="w-3.5 h-3.5" />
-                      <span>Application Sent</span>
-                    </>
-                  ) : (
-                    <span>Apply for Job</span>
-                  )}
-                </button>
-
-                <span className="text-[10px] text-slate-400">Class Schedule Matched</span>
+              <div className="pt-2 border-t border-[#E5E0D8] flex items-center justify-between text-xs">
+                <span className="text-[11px] text-[#64748B]">Work-Study Approved</span>
+                <span className="font-semibold text-[#0F766E]">Timetable Friendly</span>
               </div>
             </div>
           );
         })}
+
+        {displayedJobs.length === 0 && (
+          <div className="bg-white border border-[#E5E0D8] rounded-3xl p-8 text-center shadow-sm">
+            <p className="text-xs font-bold text-[#1E293B]">No bookmarked jobs yet</p>
+            <p className="text-[11px] text-[#64748B] mt-1">
+              Tap the bookmark icon on any campus job to save it for later.
+            </p>
+            <button
+              onClick={() => setFilterBookmarked(false)}
+              className="mt-3 min-h-[44px] px-4 py-2 bg-[#0F766E] text-white text-xs font-semibold rounded-xl"
+            >
+              View All Jobs
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

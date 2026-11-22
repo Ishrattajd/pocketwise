@@ -31,4 +31,18 @@ describe('BottomNav component', () => {
     expect(screen.getByText('Scholarships').closest('a')).toHaveAttribute('href', '/scholarships');
     expect(screen.getByText('Jobs').closest('a')).toHaveAttribute('href', '/jobs');
   });
+
+  it('sets aria-current="page" on the active route link', () => {
+    render(
+      <MemoryRouter initialEntries={['/expenses']}>
+        <BottomNav />
+      </MemoryRouter>
+    );
+
+    const expensesLink = screen.getByText('Expenses').closest('a');
+    const homeLink = screen.getByText('Home').closest('a');
+
+    expect(expensesLink).toHaveAttribute('aria-current', 'page');
+    expect(homeLink).not.toHaveAttribute('aria-current');
+  });
 });

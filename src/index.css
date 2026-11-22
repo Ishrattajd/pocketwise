@@ -5,10 +5,18 @@
 @layer base {
   html {
     -webkit-tap-highlight-color: transparent;
+    background-color: #FAF7F2;
+    color: #1E293B;
   }
 
   body {
-    @apply bg-slate-950 text-slate-100 font-sans;
+    background-color: #FAF7F2;
+    color: #1E293B;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
   }
 }
 

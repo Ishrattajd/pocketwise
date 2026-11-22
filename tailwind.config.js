@@ -4,21 +4,30 @@ export default {
   theme: {
     extend: {
       colors: {
-        brand: {
-          50: '#eef2ff',
-          100: '#e0e7ff',
-          200: '#c7d2fe',
-          300: '#a5b4fc',
-          400: '#818cf8',
-          500: '#6366f1',
-          600: '#4f46e5',
-          700: '#4338ca',
-          800: '#3730a3',
-          900: '#312e81',
+        canvas: '#FAF7F2',
+        card: '#FFFFFF',
+        teal: {
+          DEFAULT: '#0F766E',
+          dark: '#115E59',
+          light: '#F0FDFA',
+        },
+        amber: {
+          DEFAULT: '#F59E0B',
+          light: '#FEF3C7',
+        },
+        coral: {
+          DEFAULT: '#F87171',
+          light: '#FEF2F2',
+        },
+        slate: {
+          primary: '#1E293B',
+          secondary: '#64748B',
+          border: '#E5E0D8',
         },
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
+        heading: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
       },
     },
   },

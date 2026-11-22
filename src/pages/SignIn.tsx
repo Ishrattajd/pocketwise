@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { useCurrency } from '../hooks/useCurrency';
 import { isFirebaseConfigured } from '../services/firebase';
+import { CurrencySelector } from '../components/CurrencySelector';
+import { StudentFinanceIllustration } from '../components/Illustrations';
 import { Wallet, ShieldCheck, GraduationCap, DollarSign, Sparkles } from 'lucide-react';
 
 export const SignIn: React.FC = () => {
   const { user, signInWithGoogle, signInAsDemo } = useAuth();
+  const { currency } = useCurrency();
   const [loading, setLoading] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
 
@@ -36,7 +40,6 @@ export const SignIn: React.FC = () => {
       console.error(err);
       const firebaseError = err as { code?: string; message?: string };
       if (firebaseError.code === 'auth/popup-closed-by-user') {
-        // User closed the popup, do not show an error banner
         return;
       }
       setAuthError(
@@ -54,37 +57,53 @@ export const SignIn: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-4">
-      <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
-        {/* Glow backdrop decoration */}
-        <div className="absolute -top-16 -right-16 w-44 h-44 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-16 -left-16 w-44 h-44 bg-violet-500/10 rounded-full blur-3xl pointer-events-none" />
-
+    <div className="min-h-screen bg-[#FAF7F2] text-[#1E293B] flex flex-col items-center justify-center p-4">
+      <div className="w-full max-w-md bg-white border border-[#E5E0D8] rounded-3xl p-6 sm:p-8 shadow-sm">
+        {/* Header Branding */}
         <div className="text-center">
-          <div className="inline-flex p-3 rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-500 shadow-xl shadow-indigo-500/20 mb-4">
-            <Wallet className="w-8 h-8 text-white" />
+          <div className="inline-flex p-3 rounded-2xl bg-[#0F766E] text-white shadow-sm mb-3">
+            <Wallet className="w-7 h-7 text-white" />
           </div>
-          <h1 className="text-2xl font-black text-white tracking-tight">PocketWise</h1>
-          <p className="mt-1 text-sm text-indigo-400 font-medium">Smart Money for College Students</p>
-          <p className="mt-3 text-xs text-slate-400 leading-relaxed max-w-xs mx-auto">
-            Take control of your campus budget, track daily food & textbook expenses, grow savings,
-            and discover student scholarships & jobs.
-          </p>
+          <h1 className="font-heading text-2xl font-bold text-[#1E293B] tracking-tight">
+            PocketWise
+          </h1>
+          <p className="mt-1 text-sm text-[#0F766E] font-medium">Smart Money for College Students</p>
+        </div>
+
+        {/* Inline SVG Illustration */}
+        <div className="my-4 flex justify-center">
+          <StudentFinanceIllustration className="w-48 h-36" />
+        </div>
+
+        <p className="text-center text-xs text-[#64748B] leading-relaxed max-w-xs mx-auto mb-4">
+          College is busy enough. Keep your spending simple with easy hostel budgets, tuition goals,
+          and student grants.
+        </p>
+
+        {/* Currency Selector on Sign-in */}
+        <div className="mb-5 bg-[#FAF7F2] p-3 rounded-2xl border border-[#E5E0D8]">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[11px] font-semibold text-[#1E293B] uppercase tracking-wider">
+              Preferred Currency
+            </span>
+            <span className="text-[11px] font-medium text-[#0F766E]">Selected: {currency}</span>
+          </div>
+          <CurrencySelector />
         </div>
 
         {/* Feature Highlights */}
-        <div className="my-6 space-y-2.5 bg-slate-800/50 border border-slate-800 rounded-xl p-3.5">
-          <div className="flex items-center gap-2.5 text-xs text-slate-300">
-            <DollarSign className="w-4 h-4 text-emerald-400 shrink-0" />
-            <span>Track student-friendly budgets & split costs</span>
+        <div className="mb-5 space-y-2 bg-[#FAF7F2] border border-[#E5E0D8] rounded-2xl p-3.5">
+          <div className="flex items-center gap-2.5 text-xs text-[#1E293B]">
+            <DollarSign className="w-4 h-4 text-[#0F766E] shrink-0" />
+            <span>Track daily mess, transit & textbook spending</span>
           </div>
-          <div className="flex items-center gap-2.5 text-xs text-slate-300">
-            <GraduationCap className="w-4 h-4 text-indigo-400 shrink-0" />
-            <span>Find scholarships & verified campus work-study</span>
+          <div className="flex items-center gap-2.5 text-xs text-[#1E293B]">
+            <GraduationCap className="w-4 h-4 text-[#F59E0B] shrink-0" />
+            <span>Find NSP, state merit grants & campus work-study</span>
           </div>
-          <div className="flex items-center gap-2.5 text-xs text-slate-300">
-            <ShieldCheck className="w-4 h-4 text-violet-400 shrink-0" />
-            <span>Mobile PWA offline support & secure Firebase Auth</span>
+          <div className="flex items-center gap-2.5 text-xs text-[#1E293B]">
+            <ShieldCheck className="w-4 h-4 text-[#0F766E] shrink-0" />
+            <span>Offline-first PWA with secure student sync</span>
           </div>
         </div>
 
@@ -92,10 +111,10 @@ export const SignIn: React.FC = () => {
         {!isFirebaseConfigured && (
           <div
             data-testid="auth-warning-banner"
-            className="mb-4 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 text-xs text-amber-300 leading-normal"
+            className="mb-4 p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-800 leading-normal"
           >
-            Google Sign-In requires active Firebase credentials. You can also explore instantly with
-            "Try Demo Account" below!
+            Google Sign-In requires active Firebase credentials. You can explore instantly with "Try
+            Demo Account" below!
           </div>
         )}
 
@@ -103,21 +122,20 @@ export const SignIn: React.FC = () => {
         {authError && (
           <div
             data-testid="auth-error-banner"
-            className="mb-4 p-3 rounded-lg bg-rose-500/10 border border-rose-500/20 text-xs text-rose-300 leading-normal"
+            className="mb-4 p-3.5 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 leading-normal"
           >
             {authError}
           </div>
         )}
 
-        {/* Auth Buttons */}
+        {/* Auth Buttons with 44px+ touch targets */}
         <div className="space-y-3">
           <button
             onClick={handleGoogleSignIn}
             disabled={loading}
             data-testid="google-signin-button"
-            className="w-full flex items-center justify-center gap-3 bg-white hover:bg-slate-100 text-slate-900 font-semibold py-3 px-4 rounded-xl transition duration-150 shadow-md disabled:opacity-50"
+            className="min-h-[44px] w-full flex items-center justify-center gap-3 bg-white hover:bg-slate-50 text-[#1E293B] border border-[#E5E0D8] font-semibold py-2.5 px-4 rounded-xl transition duration-150 shadow-sm disabled:opacity-50"
           >
-            {/* Google G Logo SVG */}
             <svg className="w-4 h-4" viewBox="0 0 24 24">
               <path
                 fill="#4285F4"
@@ -142,16 +160,15 @@ export const SignIn: React.FC = () => {
           <button
             onClick={handleDemoSignIn}
             data-testid="demo-signin-button"
-            className="w-full flex items-center justify-center gap-2 bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/30 font-medium py-2.5 px-4 rounded-xl text-xs transition duration-150"
+            className="min-h-[44px] w-full flex items-center justify-center gap-2 bg-[#0F766E]/10 hover:bg-[#0F766E]/15 text-[#0F766E] border border-[#0F766E]/20 font-semibold py-2.5 px-4 rounded-xl text-xs transition duration-150"
           >
-            <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
+            <Sparkles className="w-4 h-4 text-[#0F766E]" />
             <span>Instant Preview with Demo Student Account</span>
           </button>
         </div>
 
-        <p className="mt-5 text-center text-[11px] text-slate-400">
-          Built for students. Read Firebase config from{' '}
-          <code className="text-slate-300">VITE_*</code> environment variables.
+        <p className="mt-5 text-center text-[11px] text-[#64748B]">
+          Built for students. INR-first with zero ads or tracking.
         </p>
       </div>
     </div>

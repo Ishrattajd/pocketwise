@@ -14,3 +14,17 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+declare module 'firebase/ai' {
+  export function getAI(app: unknown, options?: unknown): unknown;
+  export class GoogleAIBackend {
+    constructor();
+  }
+  export function getGenerativeModel(ai: unknown, options: { model: string }): {
+    generateContent: (prompt: string | unknown) => Promise<{
+      response: {
+        text: () => string;
+      };
+    }>;
+  };
+}

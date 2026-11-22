@@ -17,8 +17,8 @@ export default defineConfig({
         name: 'PocketWise - Student Money Manager',
         short_name: 'PocketWise',
         description: 'Mobile-first PWA for students to manage expenses, savings goals, scholarships, and campus jobs.',
-        theme_color: '#4f46e5',
-        background_color: '#0f172a',
+        theme_color: '#0F766E',
+        background_color: '#FAF7F2',
         display: 'standalone',
         orientation: 'portrait',
         icons: [
@@ -39,6 +39,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      'firebase/ai': path.resolve(__dirname, './src/services/firebaseAiShim.ts'),
     },
   },
   test: {
