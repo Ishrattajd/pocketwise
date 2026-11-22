@@ -1,0 +1,27 @@
+import React from 'react';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
+import { LoadingSpinner } from './LoadingSpinner';
+
+interface ProtectedRouteProps {
+  children?: React.ReactNode;
+}
+
+export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+  const { user, loading } = useAuth();
+  const location = useLocation();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-900">
+        <LoadingSpinner message="Checking authentication status..." />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Navigate to="/signin" state={{ from: location }} replace />;
+  }
+
+  return children ? <>{children}</> : <Outlet />;
+};
